@@ -85,6 +85,8 @@ class NHentai(ProxySource):
                     file_format = "png"
                 if t["t"] == "g":
                     file_format = "gif"
+                if t["t"] == "w":
+                    file_format = "webp"
                 pages_list.append(
                     f"https://i.nhentai.net/galleries/{api_data['media_id']}/{p + 1}.{file_format}"
                 )
