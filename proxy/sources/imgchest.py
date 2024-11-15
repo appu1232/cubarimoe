@@ -1,3 +1,5 @@
+import json
+
 from typing import List, Optional, Dict
 
 from bs4 import BeautifulSoup
@@ -27,14 +29,14 @@ class ImageChest(ProxySource):
             return None
 
         soup = BeautifulSoup(resp.text, "html.parser")
-        page_elements = soup.find_all("meta", attrs={"name": "twitter:image"})
-        pages = [page["content"] for page in page_elements]
+        page_metadata = soup.find("div", attrs={"id": "app"})
+        page_data = json.loads(page_metadata.attrs["data-page"])
+        post_data = page_data.get("props", {}).get("post", {})
 
-        if pages.count(None) == len(pages):
-            # Could not retrieve content attribute from any image element.
-            return None
+        files = post_data.get("files", [])
 
-        title = soup.find("meta", property="og:title").get("content", "No title").strip()
+        pages = [page["link"] for page in files]
+        title = post_data.get("title", "No title")
 
         return {
             "slug": meta_id,
