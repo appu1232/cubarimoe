@@ -111,7 +111,7 @@ class NHentai(ProxySource):
                 "tags": tag_list,
                 "lang": ", ".join(lang_list),
                 "chapters": chapters_dict,
-                "cover": f"https://t.nhentai.net/galleries/{api_data['media_id']}/cover.{'jpg' if api_data['images']['cover']['t'] == 'j' else 'png'}",
+                "cover": f"https://t2.nhentai.net/galleries/{api_data['media_id']}/cover.{'jpg' if api_data['images']['cover']['t'] == 'j' else 'png'}",
                 "timestamp": api_data["upload_date"],
             }
         else:
