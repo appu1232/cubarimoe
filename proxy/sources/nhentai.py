@@ -88,7 +88,7 @@ class NHentai(ProxySource):
                 if t["t"] == "w":
                     file_format = "webp"
                 pages_list.append(
-                    f"https://i.nhentai.net/galleries/{api_data['media_id']}/{p + 1}.{file_format}"
+                    f"https://i2.nhentai.net/galleries/{api_data['media_id']}/{p + 1}.{file_format}"
                 )
 
             groups_dict = {"1": group or "N-Hentai"}
