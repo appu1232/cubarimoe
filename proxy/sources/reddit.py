@@ -37,7 +37,7 @@ class Reddit(ProxySource):
 
     def reddit_gallery(self, meta_id):
         resp = get_wrapper(
-            f"https://www.reddit.com/gallery/{meta_id}",
+            f"https://www.reddit.com/gallery/{meta_id}/",
             allow_redirects=True,
             use_proxy=True,
         )
