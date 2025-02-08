@@ -25,7 +25,7 @@ class Reddit(ProxySource):
             )
 
         return [
-            re_path(r"^(?:reddit|r/[a-z0-9_]+/comments)/(?P<meta_id>[\d\w]+)", handler),
+            re_path(r"^(?:reddit|r/[a-zA-Z0-9_]+/comments)/(?P<meta_id>[\d\w]+)", handler),
             re_path(r"^(?:gallery)/(?P<meta_id>[\d\w]+)", handler),
         ]
 
