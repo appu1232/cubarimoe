@@ -17,6 +17,7 @@ from .sources.reddit import Reddit
 from .sources.mangadventure import MangAdventure
 from .sources.dynasty import Dynasty
 from .sources.catbox import Catbox
+from .sources.rawkuma import Rawkuma
 
 sources = [
     MangaDex(),
@@ -35,5 +36,6 @@ sources = [
     Reddit(),
     Imgbb(),
     Dynasty(),
-    Catbox()
+    Catbox(),
+    Rawkuma(),
 ]
