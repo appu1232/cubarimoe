@@ -67,7 +67,6 @@ def _parse_links(input_str: str) -> str:
         flags=re.MULTILINE|re.IGNORECASE,
     )
 
-
 def _parse_headers(input_str: str) -> str:
     search = re.finditer(r"^(#{1,5}) +(.+)[# ]?$", input_str, re.MULTILINE)
     for i in search:
@@ -79,28 +78,52 @@ def _parse_headers(input_str: str) -> str:
         )
     return input_str
 
+#Checks whether a string contains a plain non-quoted URL, mainly to later avoid <a herf> fields.
+#Example:
+#    Returns 'true' for: http://example.nonexistant 
+#    Returns 'false' for: "http://example.nonexistnat"
+def _is_plain_url(input_str: str) -> bool:
+    return re.search(r"(?<!\")(https?:\/\/[-a-zA-Z0-9._~:/?#@!$&()*+,;=%']+)(?!\")", input_str) != None
 
 def _parse_strong_emphasis(input_str: str) -> str:
-    return "\n".join(
-        re.sub(
-            r"(?<!\\)\*\*(\w.*?)(?<!\\)\*\*|(?<!\\)__(\w.*?)(?<!\\)__",
-            r"<strong>\1</strong>",
-            l,
-        )
-        for l in input_str.splitlines()
-    )
+    output_str="\n"
 
+    #Iterates over every line and checks for URLs. Applies substition by regex only if there aren't any.
+    #This is necessiary as some URLs can be misinterpreted as markdown text, which promptly messes up the outputed HTML (as was seen here: https://tomo.fukai20.com). 
+
+    #If anyone knows how to do the following purely with a regex, go ahead. I couldn't figure it out
+    # -Night
+
+    for l in input_str.splitlines():
+        if (not _is_plain_url(l)):
+            output_str+=re.sub(
+                    r"(?<!\\)\*\*(\w.*?)(?<!\\)\*\*(?![\\,\"])|(?<!\\)\_\_(\w.*?)(?<!\\)\_\_",
+                    r"<strong>\1\2</strong>",
+                    l,
+                )+"\n"
+        else:
+            output_str+=l + "\n"    
+    return output_str
 
 def _parse_em_emphasis(input_str: str) -> str:
-    return "\n".join(
-        re.sub(
-            r"(?<!\\)\*(\w.*?)(?<!\\)\*|(?<!\\)_(\w.*?)(?<!\\)_",
-            r"<em>\1</em>",
-            l,
-        )
-        for l in input_str.splitlines()
-    )
+    output_str = ""
 
+    #Iterates over every line and checks for URLs. Applies substition by regex only if there aren't any.
+    #This is necessiary as some URLs can be misinterpreted as markdown text, which promptly messes up the outputed HTML (as was seen here: https://tomo.fukai20.com). 
+
+    #If anyone knows how to do the following purely with a regex, go ahead. I couldn't figure it out. 
+    # -Night
+
+    for l in input_str.splitlines():
+        if (not _is_plain_url(l)):
+            output_str+=re.sub(
+                    r"(?<![\\,\"])(?<!\*)\*(\w.*?)(?<!\\)\*(?![\\,\",*])|(?<![\\,\"])(?<!\_)_(?!_)(\w.*?)(?<![\\,\"])_(?!\_)",
+                    r"<em>\1\2</em>",
+                    l,
+                )+"\n"
+        else:
+           output_str+=l + "\n"
+    return output_str
 
 def _parse_code(input_str: str) -> str:
     return "\n".join(
@@ -141,5 +164,4 @@ def parse_html(input_str: str) -> str:
 
     for parser in parsers:
         intermediate_parse_result = parser(intermediate_parse_result)
-
     return intermediate_parse_result
