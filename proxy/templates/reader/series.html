@@ -1,9 +1,9 @@
 {% extends "layout.html" %} {% load static %}
 {% block meta %}
 <title>Read {{ series }} | {{ brand.name }}</title>
-<meta name="twitter:description" content="Read {{ series }}{% if author %} by {{ author }} {% endif %} on Cubari, the manga image proxy." />
-<meta property="og:description" content="Read {{ series }}{% if author %} by {{ author }} {% endif %} on Cubari, the manga image proxy." />
-<meta name="description" content="Read {{ series }}{% if author %} by {{ author }} {% endif %} on Cubari, the manga image proxy." />
+<meta name="twitter:description" content="Read {{ series }}{% if author %} by {{ author }}{% endif %} on Cubari, the manga image proxy." />
+<meta property="og:description" content="Read {{ series }}{% if author %} by {{ author }}{% endif %} on Cubari, the manga image proxy." />
+<meta name="description" content="Read {{ series }}{% if author %} by {{ author }}{% endif %} on Cubari, the manga image proxy." />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="Read {{ series }} | {{ brand.name }}" />
 <meta name="twitter:image" content="{{ brand.image_url }}" />
